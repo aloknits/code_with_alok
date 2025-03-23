@@ -1,0 +1,26 @@
+name: Azure Data Factory CI/CD
+
+on:
+  push:
+    branches:
+      - AS_GITHUB_ACTIONS
+
+jobs:
+  validate:
+    runs-on: [windows-latest]
+    environment: dev
+    steps:
+    - name: Check runner OS
+      run: echo "Running on $RUNNER_OS"
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Run PowerShell script
+      shell: pwsh
+      run: |
+          Get-Location
+          $datafactory_path = Join-Path -Path (Get-Location) -ChildPath "datafactory"
+          write-Output $datafactory_path
+
+          #Installing libs for adf deployment
+          Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
+          Install-Module -Name azure.datafactory.tools -Scope CurrentUser
