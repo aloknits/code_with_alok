@@ -25,3 +25,4 @@ jobs:
           Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
           Install-Module -Name azure.datafactory.tools -Scope CurrentUser
           Get-InstalledModule -Name Az -AllVersions | Select-Object Name, Version
+          Get-InstalledModule -Name azure.datafactory.tools | Select-Object Name, Version
