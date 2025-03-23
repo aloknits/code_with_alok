@@ -1,0 +1,38 @@
+name: Azure Data Factory CI/CD
+
+on:
+  push:
+    branches:
+      - AS_GITHUB_ACTIONS
+
+jobs:
+  validate:
+    runs-on: [windows-uhg-1]
+    environment: dev
+    steps:
+    - name: Check runner OS
+      run: echo "Running on $RUNNER_OS"
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Run PowerShell script
+      shell: pwsh
+      env:
+          OFT_AZURE_CREDENTIALS: ${{ secrets.OFT_AZURE_CREDENTIALS }}
+      run: |
+          Get-Location
+          $datafactory_path = Join-Path -Path (Get-Location) -ChildPath "datafactory"
+          write-Output $datafactory_path
+
+          #Installing libs for adf deployment
+          #Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
+          #Install-Module -Name azure.datafactory.tools -Scope CurrentUser
+
+          $oft_azure_creds=$env:OFT_AZURE_CREDENTIALS
+          $oft_azure_creds_json=$oft_azure_creds | ConvertFrom-Json
+
+          $tenantId=$oft_azure_creds_json.tenantId
+          $appId=$oft_azure_creds_json.clientId
+          $clientKey=$oft_azure_creds_json.clientSecret
+          
+          $clientSecret= ConvertTo-SecureString $clientKey -AsPlainText -Force
+          $credential=New-Object System.Management.Automation.PSCredential ($appId, $clientSecret)
