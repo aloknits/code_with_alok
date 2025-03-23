@@ -17,6 +17,7 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
+          Set-PSDebug -Trace 1
           Get-Location
           $datafactory_path = Join-Path -Path (Get-Location) -ChildPath "datafactory"
           write-Output $datafactory_path
