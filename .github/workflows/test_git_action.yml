@@ -7,34 +7,36 @@ on:
 
 jobs:
   validate:
-    runs-on: [windows-latest]
+    runs-on: windows-latest
     environment: dev
     steps:
-    - name: Check runner OS
-      run: echo "Running on $RUNNER_OS"
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Run PowerShell script
-      shell: pwsh
-      run: |
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Check runner OS
+        run: echo "Running on $RUNNER_OS"
+
+      - name: Run PowerShell script
+        shell: pwsh
+        env:
+          MY_KEY_SECRETS: ${{ secrets.MY_KEY_SECRETS }}
+        run: |
           Get-Location
           $datafactory_path = Join-Path -Path (Get-Location) -ChildPath "datafactory"
-          write-Output $datafactory_path
+          Write-Output $datafactory_path
 
-          #Installing libs for adf deployment
-          #Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
-          #Install-Module -Name azure.datafactory.tools -Scope CurrentUser
+          # Installing libs for adf deployment
+          # Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
+          # Install-Module -Name azure.datafactory.tools -Scope CurrentUser -Force -AllowClobber
 
-          #Install-Module -Name azure.datafactory.tools -Scope CurrentUser -Force -AllowClobber
-          #Get-InstalledModule -Name Az -AllVersions | Select-Object Name, Version
-          #Get-InstalledModule -Name azure.datafactory.tools | Select-Object Name, Version
-          #Find-Module -Name azure.datafactory.tools 
+          $oft_azure_creds = $env:MY_KEY_SECRETS
+          $oft_azure_creds_json = $oft_azure_creds | ConvertFrom-Json
 
-          $oft_azure_creds=${{ secrets.MY_KEY_SECRETS }}
-          $oft_azure_creds_json=$oft_azure_creds | ConvertFrom-Json
+          $tenantId = $oft_azure_creds_json.tenantId
+          $appId = $oft_azure_creds_json.clientId
+          $clientKey = $oft_azure_creds_json.clientSecret
+          $clientSecret = ConvertTo-SecureString $clientKey -AsPlainText -Force
+          $credential = New-Object System.Management.Automation.PSCredential ($appId, $clientSecret)
 
-          $tenantId=$oft_azure_creds_json.tenantId
-          $appId=$oft_azure_creds_json.clientId
-          $clientKey=$oft_azure_creds_json.clientSecret
-          $clientSecret= ConvertTo-SecureString $clientKey -AsPlainText -Force
-          $credential=New-Object System.Management.Automation.PSCredential ($appId, $clientSecret)
+          Write-Output "Tenant ID: $tenantId"
+          Write-Output "App ID: $appId"
