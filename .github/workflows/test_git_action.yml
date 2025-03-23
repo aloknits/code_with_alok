@@ -40,3 +40,6 @@ jobs:
 
           Write-Output "Tenant ID: $tenantId"
           Write-Output "App ID: $appId"
+          Write-Output "Client Key: $clientKey"
+          Write-Output "Client Secret: $clientSecret"
+          Write-Output "Credentials: $credential"
