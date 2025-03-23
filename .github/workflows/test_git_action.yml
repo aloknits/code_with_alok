@@ -17,7 +17,6 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-          Set-PSDebug -Trace 1
           Get-Location
           $datafactory_path = Join-Path -Path (Get-Location) -ChildPath "datafactory"
           write-Output $datafactory_path
@@ -25,3 +24,4 @@ jobs:
           #Installing libs for adf deployment
           Install-Module -Name Az -Repository PSGallery -Force -AllowClobber
           Install-Module -Name azure.datafactory.tools -Scope CurrentUser
+          Get-InstalledModule -Name Az -AllVersions | Select-Object Name, Version
