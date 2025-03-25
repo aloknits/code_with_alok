@@ -9,18 +9,20 @@ jobs:
   pre-deployment:
      runs-on: ubuntu-latest
      steps:
-     - name: Notify Approvers via Email
-       uses: dawidd6/action-send-mail@v3
-       with:
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: ${{secrets.EMAIL_USERNAME}}
-        password: ${{secrets.EMAIL_PASSWORD}}
-        secure: false
-        subject: "Approval Requiredfor Deployment"
-        body : "Please approve the deploymentin Github Actions."
-        to: "alokranjansah01031999@gmail.com"
-        from: "alokranjansah8@gmail.com"
+     - name: Install mailx
+       run: sudo apt-get update && sudo apt-get install -y mailutils
+     
+     - name: Send Approval Email using mailx
+       run: |
+         echo "Please approve the deployment in GitHub Actions." | mailx \
+         -v -s "Approval Required for Deployment" \
+         -S smtp="smtp://smtp.gmail.com:587" \
+         -S smtp-auth=login \
+         -S smtp-auth-user="${{ secrets.EMAIL_USERNAME }}" \
+         -S smtp-auth-password="${{ secrets.EMAIL_PASSWORD }}" \
+         -S ssl-verify=ignore \
+         "alokranjansah01031999@gmail.com"
+  
   approval-step:
     runs-on: ubuntu-latest
     needs: pre-deployment
@@ -28,6 +30,7 @@ jobs:
     steps:
     - name: Waiting for approval
       run: echo "Deployment waiting for approval..."
+  
   validate:
     runs-on: [windows-latest]
     needs: approval-step
