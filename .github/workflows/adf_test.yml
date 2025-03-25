@@ -6,8 +6,30 @@ on:
       - AS_GITHUB_ACTIONS
 
 jobs:
+  pre-deployment:
+     runs-on: ubuntu-latest
+     steps:
+     - name: Notify Approvers via Email
+       uses: dwaidd6/action-send-mail@v3
+       with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: "alokranjansah8@gmail.com"
+        password: ${{secrets.EMAIL_PASSWORD}}
+        subject: "Approval Requiredfor Deployment"
+        body : "Please approve the deploymentin Github Actions."
+        to: "alokranjansah01031999@gmail.com"
+        from: "alokranjansah8@gmail.com"
+  approval-step:
+    runs-on: ubuntu-latest
+    needs: pre-deployment
+    environment: ApprovalRequired
+    steps:
+    - name: Waiting for approval
+      run: echo "Deployment waiting for approval..."
   validate:
     runs-on: [windows-latest]
+    needs: approval-step
     environment: dev
     steps:
     - name: Check runner OS
