@@ -12,16 +12,17 @@ jobs:
      - name: Install mailx
        run: sudo apt-get update && sudo apt-get install -y mailutils
      
+     - name: Configure mailx SMTP settings
+       run: |
+         echo "set smtp=smtp://smtp.gmail.com:587" >> ~/.mailrc
+         echo "set smtp-auth=login" >> ~/.mailrc
+         echo "set smtp-auth-user=${{ secrets.EMAIL_USERNAME }}" >> ~/.mailrc
+         echo "set smtp-auth-password=${{ secrets.EMAIL_PASSWORD }}" >> ~/.mailrc
+         echo "set ssl-verify=ignore" >> ~/.mailrc
+     
      - name: Send Approval Email using mailx
        run: |
-         echo "Please approve the deployment in GitHub Actions." | mailx \
-         -s "Approval Required for Deployment" \
-         -S smtp="smtp://smtp.gmail.com:587" \
-         -S smtp-auth=login \
-         -S smtp-auth-user="${{ secrets.EMAIL_USERNAME }}" \
-         -S smtp-auth-password="${{ secrets.EMAIL_PASSWORD }}" \
-         -S ssl-verify=ignore \
-         "alokranjansah01031999@gmail.com"
+         echo "Please approve the deployment in GitHub Actions." | mailx -s "Approval Required for Deployment" "alokranjansah01031999@gmail.com"
   
   approval-step:
     runs-on: ubuntu-latest
