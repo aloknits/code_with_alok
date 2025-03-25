@@ -16,7 +16,7 @@ jobs:
         server_port: 587
         username: "alokranjansah8@gmail.com"
         password: ${{secrets.EMAIL_PASSWORD}}
-        secure: true
+        secure: false
         subject: "Approval Requiredfor Deployment"
         body : "Please approve the deploymentin Github Actions."
         to: "alokranjansah01031999@gmail.com"
