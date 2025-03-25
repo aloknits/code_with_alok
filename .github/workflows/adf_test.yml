@@ -15,7 +15,7 @@ jobs:
      - name: Send Approval Email using mailx
        run: |
          echo "Please approve the deployment in GitHub Actions." | mailx \
-         -v -s "Approval Required for Deployment" \
+         -s "Approval Required for Deployment" \
          -S smtp="smtp://smtp.gmail.com:587" \
          -S smtp-auth=login \
          -S smtp-auth-user="${{ secrets.EMAIL_USERNAME }}" \
