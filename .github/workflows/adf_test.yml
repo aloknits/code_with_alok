@@ -22,7 +22,7 @@ jobs:
      
      - name: Send Approval Email using mailx
        run: |
-         echo "Please approve the deployment in GitHub Actions." | mailx -s "Approval Required for Deployment" "alokranjansah01031999@gmail.com"
+         echo "Please approve the deployment in GitHub Actions." | mailx -s "Approval Required for Deployment" -r "alokranjansah8@gmail.com" "alokranjansah01031999@gmail.com"
   
   approval-step:
     runs-on: ubuntu-latest
