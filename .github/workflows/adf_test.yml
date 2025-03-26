@@ -8,6 +8,7 @@ on:
 jobs:
   pre-deployment:
      runs-on: ubuntu-latest
+     environment: dev
      steps:
      - name: Install mailx
        run: sudo apt-get update && sudo apt-get install -y mailutils
