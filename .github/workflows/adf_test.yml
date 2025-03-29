@@ -3,7 +3,7 @@ name: Azure Data Factory CI/CD
 on:
   push:
     branches:
-      - AS_GITHUB_ACTIONS
+      - main
 
 jobs:
   pre-deployment:
