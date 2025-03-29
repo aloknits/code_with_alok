@@ -19,6 +19,7 @@ jobs:
            echo ${{secrets.MY_TEST_KEY_UAT}}
   powershell-job:
     runs-on: windows-latest
+    environment: uat
     needs: sonar-quality-gate-check
     steps:
     - name: Run PowerShell script
