@@ -24,7 +24,7 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       env:
-          AZU_OFT_SP_CLIENT_ID: ${{ secrets.MY_TEST_KEY_UAT }}
+          MY_TEST_KEY_UAT: ${{ secrets.MY_TEST_KEY_UAT }}
       run: |
           Get-Location
           write-Output $env:MY_TEST_KEY_UAT
