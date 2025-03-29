@@ -11,7 +11,7 @@ env:
 jobs:
   sonar-quality-gate-check:
     runs-on: [ubuntu-latest]
-
+    environment: uat
     steps:
     - name: check-sonar-status
       run: |
