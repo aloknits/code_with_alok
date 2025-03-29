@@ -1,0 +1,40 @@
+name: Test VARS ENV
+
+on:
+  push:
+    branches:
+        - AS_GITHUB_ACTIONS
+        
+env:
+  ENVIRONMENT: uat
+  
+jobs:
+  sonar-quality-gate-check:
+    runs-on: [ubuntu-latest]
+
+    steps:
+    - name: check-sonar-status
+      run: |
+           echo checking sonar....
+           echo ${{secrets.MY_TEST_KEY_UAT}}
+  powershell-job:
+    runs-on: windows-latest
+    steps:
+    - name: Run PowerShell script
+      shell: pwsh
+      env:
+          AZU_OFT_SP_CLIENT_ID: ${{ secrets.MY_TEST_KEY_UAT }}
+      run: |
+          Get-Location
+          write-Output $env:MY_TEST_KEY_UAT
+          
+
+  start-triggers:
+    runs-on: [ubuntu-latest]
+    steps:
+     - name: start trigger uat
+       run: |
+         #Installing Azure CLI
+
+         echo ${{secrets.MY_TEST_KEY_UAT}}
+          
