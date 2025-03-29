@@ -19,6 +19,7 @@ jobs:
            echo ${{secrets.MY_TEST_KEY_UAT}}
   powershell-job:
     runs-on: windows-latest
+    needs: sonar-quality-gate-check
     steps:
     - name: Run PowerShell script
       shell: pwsh
@@ -31,6 +32,7 @@ jobs:
 
   start-triggers:
     runs-on: [ubuntu-latest]
+    needs: powershell-job
     steps:
      - name: start trigger uat
        run: |
