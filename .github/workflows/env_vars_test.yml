@@ -7,7 +7,7 @@ on:
         
 env:
   ENVIRONMENT: uat
-  
+
 jobs:
   sonar-quality-gate-check:
     runs-on: [ubuntu-latest]
