@@ -1,4 +1,4 @@
-name: Deploy Databricks Notebooks
+name: Airflow Testing
 
 on:
   workflow_dispatch:
