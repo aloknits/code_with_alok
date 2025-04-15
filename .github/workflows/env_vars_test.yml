@@ -3,7 +3,7 @@ name: Test VARS ENV
 on:
   push:
     branches:
-        - AS_GITHUB_ACTIONS
+        - main
         
 env:
   ENVIRONMENT: uat
