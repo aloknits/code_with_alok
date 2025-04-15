@@ -1,0 +1,25 @@
+name: Deploy Databricks Notebooks
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Enter Username'
+        required: true
+        default: ''
+      user_password:
+        description: 'Enter Password'
+        required: true
+        default: ''
+jobs:
+  deploy-adb-notebooks:
+    runs-on: [ubuntu-latest]
+    environment: dev
+
+    steps:
+    - name: check-sonar-status
+      run: |
+         User_name="${{ github.event.inputs.notebook_paths }}"
+         echo Username: $username
+         echo Password: $user_password
+        
