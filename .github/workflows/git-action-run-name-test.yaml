@@ -1,0 +1,15 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - main
+
+run-name: Deploy triggered by ${{ github.actor }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
